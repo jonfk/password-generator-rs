@@ -1,0 +1,56 @@
+
+extern crate rand;
+
+use rand::os::OsRng;
+use rand::Rng;
+
+use std::char;
+
+fn main() {
+
+    let password = generate_random_password();
+
+    println!("Random numbers: {}", password);
+}
+
+fn generate_random_password() -> String {
+
+    let mut os_rng = OsRng::new().unwrap();
+    let rand_gen = os_rng.gen_iter::<u32>();
+
+    let rand_nums = rand_gen.take(100).map(|x| { (x % 95) + 32});
+    rand_nums.map(|x| {char::from_u32(x).unwrap()}).collect::<String>()
+}
+
+enum CharType {
+    Number,
+    Special,
+    UpperCase,
+    LowerCase,
+    NonVisible,
+    Invalid,
+}
+
+impl CharType {
+    fn to_type(&self, num: u32) -> CharType {
+        match num {
+            0...31 =>
+                CharType::NonVisible,
+            32...47 =>
+                CharType::Special,
+            48...57 =>
+                CharType::Number,
+            58...64 =>
+                CharType::Special,
+            65...90 =>
+                CharType::UpperCase,
+            91...96 =>
+                CharType::Special,
+            97...122 =>
+                CharType::LowerCase,
+            123...126 =>
+                CharType::Special,
+            _ => CharType::Invalid,
+        }
+    }
+}

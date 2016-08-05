@@ -1,0 +1,8 @@
+[package]
+name = "password-generator-rs"
+version = "0.1.0"
+authors = ["Jonathan Fok kan <jonathan.fokkan@appdirect.com>"]
+
+[dependencies]
+rand = "0.3"
+clap = "2.10.0"
